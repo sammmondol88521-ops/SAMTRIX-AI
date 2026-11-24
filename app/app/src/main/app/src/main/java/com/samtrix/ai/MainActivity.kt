@@ -32,13 +32,33 @@ class MainActivity : Activity() {
 
     private var seconds = 60
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    try {
         window.statusBarColor = bg
         window.navigationBarColor = bg
         createScreen()
         startTimer()
+    } catch (e: Throwable) {
+        val errorView = TextView(this).apply {
+            text = "SAMTRIX AI STARTUP ERROR\n\n" +
+                e.javaClass.name + "\n" +
+                (e.message ?: "No error message") +
+                "\n\n" + e.stackTraceToString()
+            textSize = 14f
+            setTextColor(Color.WHITE)
+            setPadding(24, 24, 24, 24)
+        }
+
+        val scroll = ScrollView(this)
+        scroll.setBackgroundColor(Color.BLACK)
+        scroll.addView(errorView)
+        setContentView(scroll)
     }
+}
+
 
     private fun createScreen() {
         val scroll = ScrollView(this)
